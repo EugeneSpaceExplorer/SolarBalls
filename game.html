@@ -1,1 +1,177 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Moon Match — SolarBalls Space Hub</title><link rel="stylesheet" href="style.css"></head><body><header><div class="hero"><div class="eyebrow">A Tiny Space Game</div><div class="orb">🎮</div><h1>Moon Match</h1></div></header><nav><div class="inner"><a href="index.html">🏠 Home</a><a href="characters.html">🪐 Characters</a><a href="astronomy.html">🔭 Astronomy</a><a href="moons.html">🌑 Moons</a><a href="episodes.html">📺 Episodes</a><a href="solar-system.html">🌌 Solar System</a><a href="game.html">🎮 Game</a><a href="about.html">✨ About</a></div></nav><main><section class="panel"><h2>🎮 Moon Match</h2><p class="lead">Read the clue and choose the Jovian moon. Learn as you play!</p><div class="fact"><strong>Score: <span id="score">0</span> / <span id="round">0</span></strong><p id="clue"></p></div><div id="answers" class="grid"></div><div id="result" class="details" aria-live="polite">Choose an answer.</div><div class="controls"><button id="next" type="button">Next Moon 🚀</button><button id="reset" class="secondary" type="button">Reset Game</button></div></section></main><footer>🌍 Keep looking up. The universe is waiting. 🚀<br><small>Original fan-style project inspired by SolarBalls; not an official SolarBalls website.</small></footer><script>const qs=[['Io','I am the most volcanically active world in the Solar System.'],['Europa','My icy crust may cover a salty ocean.'],['Ganymede','I am the largest moon in the Solar System.'],['Callisto','I am a heavily cratered Galilean moon.'],['Thebe','I am a small inner moon discovered from Voyager 1 images.'],['Amalthea','I am a small irregular inner moon orbiting close to Jupiter.']];let i=0,s=0,r=0,locked=false;const clue=document.getElementById('clue'),ans=document.getElementById('answers'),res=document.getElementById('result');function shuffle(a){return a.slice().sort(()=>Math.random()-.5)}function render(){locked=false;clue.textContent=qs[i][1];res.textContent='Choose an answer.';ans.innerHTML='';shuffle(qs.map(x=>x[0])).forEach(n=>{let b=document.createElement('button');b.type='button';b.textContent='🌑 '+n;b.onclick=()=>answer(n,b);ans.appendChild(b)})}function answer(n,b){if(locked)return;locked=true;r++;document.getElementById('round').textContent=r;if(n===qs[i][0]){s++;document.getElementById('score').textContent=s;res.innerHTML='<strong>🎉 Correct!</strong> Cosmic knowledge +1!';b.style.outline='3px solid var(--accent)'}else res.innerHTML='<strong>Not quite!</strong> The answer was <b>'+qs[i][0]+'</b>.'}document.getElementById('next').onclick=()=>{i=(i+1)%qs.length;render()};document.getElementById('reset').onclick=()=>{i=0;s=0;r=0;document.getElementById('score').textContent=0;document.getElementById('round').textContent=0;render()};render();</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SolarBalls Universe Quiz 🌌</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.quiz-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.badge{display:inline-block;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.9rem}
+.progress{height:10px;background:#090f25;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:14px 0 24px}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0}
+.option.correct{border-color:#62ffb0}
+.option.wrong{border-color:#ff6b8a}
+.score-big{font-size:3rem;font-weight:800}
+table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html">Home</a>
+<a href="characters.html">Characters</a>
+<a href="astronomy.html">Astronomy</a>
+<a href="moons.html">Moons</a>
+<a href="episodes.html">Episodes</a>
+<a href="solar-system.html">Solar System</a>
+<a href="game.html">🎮 Universe Quiz</a>
+<a href="about.html">About</a>
+</nav>
+
+<main>
+<section class="card">
+<h1>🌌 SolarBalls Universe Quiz</h1>
+<p class="muted">50-question bank • 10 random questions per round • astronomy from the Solar System to the whole universe.</p>
+<div id="start">
+<p>Every round picks a fresh set of 10 questions. Can you get a perfect score? 🚀</p>
+<button onclick="startGame()">Start Quiz</button>
+</div>
+
+<div id="quiz" style="display:none">
+<div class="quiz-meta">
+<span class="badge" id="counter"></span>
+<span class="badge" id="category"></span>
+<span class="badge" id="score"></span>
+</div>
+<div class="progress"><div id="bar"></div></div>
+<h2 id="question"></h2>
+<div id="options"></div>
+<p id="feedback" class="muted"></p>
+<button id="next" style="display:none" onclick="nextQuestion()">Next Question →</button>
+</div>
+
+<div id="result" style="display:none">
+<h2>🎉 Quiz Complete!</h2>
+<div class="score-big" id="finalScore"></div>
+<p id="resultMessage"></p>
+<button onclick="startGame()">Play Again</button>
+<button onclick="showScores()">View Top Scores</button>
+</div>
+</section>
+
+<section class="card" id="leaderboard">
+<h2>🏆 Top Scores</h2>
+<p class="muted">Scores are saved in this browser using local storage. GitHub Pages cannot make this a shared global leaderboard by itself.</p>
+<div id="scoresTable"></div>
+<button onclick="clearScores()">Clear Scores</button>
+</section>
+</main>
+
+<script>
+const QUESTION_BANK = [{"category": "Solar System", "q": "Which planet is closest to the Sun?", "a": "Mercury", "options": ["Venus", "Earth", "Mars"]}, {"category": "Solar System", "q": "Which planet is the largest in our Solar System?", "a": "Jupiter", "options": ["Saturn", "Neptune", "Earth"]}, {"category": "Solar System", "q": "Which planet is famous for its prominent ring system?", "a": "Saturn", "options": ["Mars", "Venus", "Mercury"]}, {"category": "Solar System", "q": "What is Earth's natural satellite called?", "a": "Moon", "options": ["Europa", "Titan", "Phobos"]}, {"category": "Solar System", "q": "Which planet is known as the Red Planet?", "a": "Mars", "options": ["Jupiter", "Venus", "Mercury"]}, {"category": "Solar System", "q": "Which planet is farthest from the Sun among the eight planets?", "a": "Neptune", "options": ["Uranus", "Saturn", "Jupiter"]}, {"category": "Solar System", "q": "What is the main asteroid belt located between?", "a": "Mars and Jupiter", "options": ["Earth and Mars", "Jupiter and Saturn", "Venus and Earth"]}, {"category": "Solar System", "q": "Which planet rotates on its side relative to most planets?", "a": "Uranus", "options": ["Neptune", "Mars", "Mercury"]}, {"category": "Solar System", "q": "What is the Sun?", "a": "A star", "options": ["A planet", "A galaxy", "A moon"]}, {"category": "Solar System", "q": "Which planet has the Great Red Spot?", "a": "Jupiter", "options": ["Saturn", "Neptune", "Mars"]}, {"category": "Stars", "q": "What process powers stars like the Sun?", "a": "Nuclear fusion", "options": ["Nuclear fission", "Chemical burning", "Radioactive cooling"]}, {"category": "Stars", "q": "What is a star mostly made of?", "a": "Hydrogen and helium", "options": ["Iron and rock", "Oxygen and nitrogen", "Silicon and carbon"]}, {"category": "Stars", "q": "What color can indicate a very hot star?", "a": "Blue", "options": ["Red", "Orange", "Brown"]}, {"category": "Stars", "q": "What happens to a massive star at the end of its life?", "a": "It can explode as a supernova", "options": ["It becomes a planet", "It turns into an asteroid", "It freezes instantly"]}, {"category": "Stars", "q": "What is a neutron star?", "a": "An extremely dense stellar remnant", "options": ["A giant planet", "A young galaxy", "A comet"]}, {"category": "Stars", "q": "What is a white dwarf?", "a": "The hot, dense remnant of a Sun-like star", "options": ["A newborn star", "A black hole", "A gas giant"]}, {"category": "Stars", "q": "What determines a star's main-sequence lifetime most strongly?", "a": "Its mass", "options": ["Its number of planets", "Its distance from Earth", "Its color alone"]}, {"category": "Stars", "q": "Which star is closest to the Sun?", "a": "Proxima Centauri", "options": ["Sirius", "Betelgeuse", "Polaris"]}, {"category": "Stars", "q": "What is a constellation?", "a": "A pattern of stars as seen from Earth", "options": ["A single star", "A planet cluster", "A type of galaxy"]}, {"category": "Stars", "q": "What do astronomers call a star that suddenly becomes much brighter?", "a": "A nova", "options": ["A moon", "A quasar", "A meteor"]}, {"category": "Galaxies", "q": "What galaxy contains our Solar System?", "a": "Milky Way", "options": ["Andromeda", "Triangulum", "Whirlpool"]}, {"category": "Galaxies", "q": "What type of galaxy is the Milky Way?", "a": "Barred spiral", "options": ["Elliptical", "Irregular", "Ring-only"]}, {"category": "Galaxies", "q": "Which galaxy is the nearest large galaxy to the Milky Way?", "a": "Andromeda Galaxy", "options": ["Whirlpool Galaxy", "Sombrero Galaxy", "Large Magellanic Cloud"]}, {"category": "Galaxies", "q": "What force keeps stars orbiting within galaxies?", "a": "Gravity", "options": ["Magnetism", "Sound", "Friction"]}, {"category": "Galaxies", "q": "What is a galaxy?", "a": "A huge system of stars, gas, dust, and dark matter", "options": ["A single star", "A planetary ring", "A comet cloud"]}, {"category": "Galaxies", "q": "What is a galaxy cluster?", "a": "A group of galaxies bound by gravity", "options": ["A group of planets", "A star's atmosphere", "A single nebula"]}, {"category": "Galaxies", "q": "What does a light-year measure?", "a": "Distance", "options": ["Time", "Brightness", "Mass"]}, {"category": "Galaxies", "q": "What does looking at distant galaxies let astronomers see?", "a": "The universe as it was in the past", "options": ["The future", "Only Earth's weather", "Inside Earth's core"]}, {"category": "Galaxies", "q": "What is the Local Group?", "a": "A small group of nearby galaxies", "options": ["A group of planets", "A star cluster inside the Sun", "A spacecraft team"]}, {"category": "Galaxies", "q": "What is a nebula?", "a": "A cloud of gas and dust in space", "options": ["A black hole's surface", "A planet's core", "A type of asteroid"]}, {"category": "Black Holes", "q": "What is a black hole?", "a": "An object whose gravity is so strong that light cannot escape from within its event horizon", "options": ["A completely empty region", "A giant star made of ice", "A dark-colored planet"]}, {"category": "Black Holes", "q": "What is the event horizon?", "a": "The boundary beyond which escape is impossible", "options": ["The center of a galaxy", "A black hole's atmosphere", "A star's surface"]}, {"category": "Black Holes", "q": "What can orbit a black hole?", "a": "Matter such as stars and gas", "options": ["Only photons", "Nothing ever", "Only planets from our Solar System"]}, {"category": "Black Holes", "q": "What often forms around an actively feeding black hole?", "a": "An accretion disk", "options": ["An asteroid belt", "A planetary ring", "An ice shell"]}, {"category": "Black Holes", "q": "What is a supermassive black hole?", "a": "A black hole with millions to billions of solar masses", "options": ["A very small black hole", "A giant planet", "A neutron star"]}, {"category": "Black Holes", "q": "Where are supermassive black holes commonly found?", "a": "At the centers of galaxies", "options": ["Inside every planet", "Only in asteroid belts", "On the surfaces of stars"]}, {"category": "Black Holes", "q": "Can a black hole be directly seen like a glowing star?", "a": "No, but its effects on surrounding matter can be observed", "options": ["Yes, because it glows brightly", "Yes, because it reflects sunlight", "Only with binoculars"]}, {"category": "Black Holes", "q": "What can happen when two black holes merge?", "a": "They produce gravitational waves", "options": ["They become planets", "They disappear without any effect", "They create a new galaxy instantly"]}, {"category": "Black Holes", "q": "What is a stellar-mass black hole usually formed from?", "a": "The collapse of a massive star", "options": ["A frozen comet", "A planet's ocean", "A galaxy collision alone"]}, {"category": "Black Holes", "q": "What does 'spaghettification' describe?", "a": "Extreme tidal stretching near a compact massive object", "options": ["A type of star formation", "A galaxy's spiral shape", "A spacecraft maneuver"]}, {"category": "Cosmology", "q": "What is the Big Bang model about?", "a": "The early hot, dense state and expansion of the universe", "options": ["The explosion of one star", "The formation of Earth only", "A collision between two planets"]}, {"category": "Cosmology", "q": "Is the universe expanding?", "a": "Yes", "options": ["No", "Only the Solar System is expanding", "Only galaxies inside the Milky Way are expanding"]}, {"category": "Cosmology", "q": "What is cosmic microwave background radiation?", "a": "Faint radiation left over from the early universe", "options": ["Radio signals from Earth", "Light from the Moon", "Heat from the Sun"]}, {"category": "Cosmology", "q": "What is dark matter?", "a": "Matter inferred from its gravitational effects that does not appear to emit or absorb light normally", "options": ["A black hole's shadow", "Dark-colored dust only", "A type of ordinary rock"]}, {"category": "Cosmology", "q": "What is dark energy associated with?", "a": "The accelerated expansion of the universe", "options": ["Making stars shine", "Planetary rings", "Earth's magnetic field"]}, {"category": "Cosmology", "q": "How old is the universe approximately?", "a": "13.8 billion years", "options": ["4.5 billion years", "100 million years", "50 trillion years"]}, {"category": "Cosmology", "q": "What does the observable universe mean?", "a": "The part of the universe whose light or other signals can reach us", "options": ["Everything that exists for sure", "Only our galaxy", "Only what we can see with our eyes"]}, {"category": "Cosmology", "q": "Why can't we see infinitely far into the universe?", "a": "The universe has a finite age and signals take time to travel", "options": ["Space is completely opaque", "Telescopes cannot detect galaxies", "The Milky Way blocks everything"]}, {"category": "Cosmology", "q": "What is a quasar?", "a": "An extremely luminous active galactic nucleus", "options": ["A small moon", "A comet tail", "A type of asteroid"]}, {"category": "Cosmology", "q": "What is a gravitational wave?", "a": "A ripple in spacetime produced by accelerating massive objects", "options": ["A sound wave in space", "A solar flare", "A radio broadcast"]}, {"category": "Space Travel", "q": "Approximately how fast does light travel in vacuum?", "a": "300,000 km/s", "options": ["3,000 km/s", "30,000 km/s", "3,000,000 km/s"]}, {"category": "Space Travel", "q": "Why do astronauts appear weightless while orbiting Earth?", "a": "They are in continuous free fall around Earth", "options": ["There is no gravity in space", "They are outside Earth's gravity", "Their spacecraft turns gravity off"]}, {"category": "Space Travel", "q": "What is an orbit?", "a": "A path followed by an object under gravity", "options": ["A straight road through space", "A planet's atmosphere", "A telescope lens"]}, {"category": "Space Travel", "q": "Why do spacecraft use gravity assists?", "a": "To change speed or trajectory using a planet's motion and gravity", "options": ["To create oxygen", "To stop all gravity", "To make stars brighter"]}, {"category": "Space Travel", "q": "What is an exoplanet?", "a": "A planet outside our Solar System", "options": ["A moon of Jupiter", "A dwarf planet only", "A planet inside the Sun"]}, {"category": "Space Travel", "q": "How do astronomers often detect exoplanets using the transit method?", "a": "By measuring a star's slight dimming when a planet crosses in front of it", "options": ["By hearing the planet", "By photographing its surface directly every time", "By measuring Earth's tides"]}, {"category": "Space Travel", "q": "What does a telescope primarily collect?", "a": "Electromagnetic radiation such as visible light or infrared", "options": ["Gravity itself", "Oxygen", "Sound waves from empty space"]}, {"category": "Space Travel", "q": "Why are infrared telescopes useful?", "a": "Infrared can reveal cool objects and can pass through some dusty regions", "options": ["They see through every object", "They only observe the Moon", "They make light travel faster"]}, {"category": "Space Travel", "q": "What is a rover designed to do?", "a": "Explore a planetary or lunar surface", "options": ["Orbit a star only", "Become a satellite", "Create a galaxy"]}, {"category": "Space Travel", "q": "What is an astronaut?", "a": "A person trained to travel and work in space", "options": ["A type of rocket", "A space telescope", "A kind of asteroid"]}];
+const TOTAL = 10;
+let round = [], current = 0, score = 0, answered = false;
+const KEY = "solarballsUniverseTopScores";
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function startGame() {
+  round = shuffle(QUESTION_BANK).slice(0, TOTAL);
+  current = 0; score = 0; answered = false;
+  document.getElementById("start").style.display = "none";
+  document.getElementById("result").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const item = round[current];
+  document.getElementById("counter").textContent = `Question ${current+1} / ${TOTAL}`;
+  document.getElementById("category").textContent = item.category;
+  document.getElementById("score").textContent = `Score: ${score}`;
+  document.getElementById("bar").style.width = `${(current/TOTAL)*100}%`;
+  document.getElementById("question").textContent = item.q;
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("next").style.display = "none";
+
+  const box = document.getElementById("options");
+  box.innerHTML = "";
+  shuffle([item.a, ...item.options]).forEach(opt => {
+    const b = document.createElement("button");
+    b.className = "option";
+    b.textContent = opt;
+    b.onclick = () => answer(b, opt, item.a);
+    box.appendChild(b);
+  });
+}
+
+function answer(button, chosen, correct) {
+  if (answered) return;
+  answered = true;
+  const buttons = document.querySelectorAll(".option");
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add("correct");
+  });
+  if (chosen === correct) {
+    score++;
+    button.classList.add("correct");
+    document.getElementById("feedback").textContent = "✅ Correct! Cosmic knowledge unlocked!";
+  } else {
+    button.classList.add("wrong");
+    document.getElementById("feedback").textContent = `❌ Not quite — the answer is ${correct}.`;
+  }
+  document.getElementById("score").textContent = `Score: ${score}`;
+  document.getElementById("next").style.display = "inline-block";
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= TOTAL) finishGame();
+  else renderQuestion();
+}
+
+function finishGame() {
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("result").style.display = "block";
+  document.getElementById("finalScore").textContent = `${score} / ${TOTAL}`;
+  let msg = score === 10 ? "🌟 PERFECT! You are officially in cosmic-brain mode!" :
+            score >= 8 ? "🚀 Amazing! Your universe knowledge is seriously strong!" :
+            score >= 6 ? "🪐 Nice work! Keep exploring the cosmos!" :
+            "🌌 Good start! Every question is another step through the universe!";
+  document.getElementById("resultMessage").textContent = msg;
+  saveScore(score);
+  showScores();
+}
+
+function saveScore(value) {
+  const scores = JSON.parse(localStorage.getItem(KEY) || "[]");
+  scores.push({score:value,total:TOTAL,date:new Date().toLocaleDateString()});
+  scores.sort((a,b) => b.score-a.score);
+  localStorage.setItem(KEY, JSON.stringify(scores.slice(0,10)));
+}
+
+function showScores() {
+  const scores = JSON.parse(localStorage.getItem(KEY) || "[]");
+  const box = document.getElementById("scoresTable");
+  if (!scores.length) {
+    box.innerHTML = "<p class='muted'>No scores yet. Be the first cosmic champion! 🏆</p>";
+    return;
+  }
+  box.innerHTML = "<table><tr><th>#</th><th>Score</th><th>Date</th></tr>" +
+    scores.map((s,i) => `<tr><td>${i+1}</td><td>${s.score} / ${s.total}</td><td>${s.date}</td></tr>`).join("") +
+    "</table>";
+}
+
+function clearScores() {
+  localStorage.removeItem(KEY);
+  showScores();
+}
+
+showScores();
+</script>
+</body>
+</html>
