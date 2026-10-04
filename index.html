@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolarBalls — When the Solar System Comes Alive</title>
+<style>
+  :root{
+    --bg:#050816; --panel:#0c1430; --panel2:#101b3e; --text:#eef3ff;
+    --muted:#aebbdc; --accent:#62d9ff; --accent2:#b98cff; --line:#26345f;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--text); background:
+      radial-gradient(circle at 15% 10%, #18285a 0, transparent 28%),
+      radial-gradient(circle at 85% 25%, #24145a 0, transparent 25%),
+      var(--bg); line-height:1.7;
+  }
+  header{
+    min-height:62vh; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:70px 20px; position:relative; overflow:hidden;
+  }
+  header:before{
+    content:"✦  ·  ✧     ·   ✦       · ✧  ·     ✦";
+    position:absolute; inset:20px; color:#fff; opacity:.35;
+    font-size:2rem; letter-spacing:18px; word-spacing:35px;
+  }
+  .hero{max-width:900px; position:relative; z-index:1}
+  .eyebrow{color:var(--accent); font-weight:800; letter-spacing:3px; text-transform:uppercase}
+  h1{font-size:clamp(3rem,8vw,6.5rem); line-height:.95; margin:18px 0;
+     background:linear-gradient(90deg,#fff,var(--accent),#d6b5ff); -webkit-background-clip:text; color:transparent}
+  .subtitle{font-size:clamp(1.1rem,2vw,1.35rem); color:var(--muted); max-width:700px; margin:auto}
+  .orb{font-size:5rem; margin-top:25px; animation:float 4s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-12px) rotate(3deg)}}
+  nav{position:sticky; top:0; z-index:10; backdrop-filter:blur(12px);
+      background:#050816cc; border-bottom:1px solid var(--line)}
+  nav .inner{max-width:1050px;margin:auto;display:flex;gap:10px;overflow:auto;padding:10px 16px}
+  nav a{color:var(--muted);text-decoration:none;padding:8px 13px;border-radius:999px;white-space:nowrap}
+  nav a:hover{background:var(--panel2);color:white}
+  main{max-width:1000px;margin:auto;padding:35px 18px 80px}
+  article{background:#091127dd;border:1px solid var(--line);border-radius:25px;padding:clamp(22px,5vw,55px);
+          box-shadow:0 20px 70px #0005}
+  h2{font-size:2rem;margin-top:0;color:#fff}
+  h3{color:var(--accent);margin-top:35px}
+  p{color:#d7e0f5}
+  .lead{font-size:1.2rem;color:#f3f6ff}
+  .quote{margin:30px 0;padding:22px 25px;border-left:4px solid var(--accent2);
+          background:linear-gradient(90deg,#151d43,#0d1530);border-radius:12px;color:#e9e0ff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin:25px 0}
+  .card{background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:17px}
+  .card .emoji{font-size:2rem}
+  .card strong{display:block;font-size:1.1rem;margin:7px 0}
+  .timeline{border-left:2px solid var(--line);padding-left:22px}
+  .event{margin:25px 0;position:relative}
+  .event:before{content:"";width:10px;height:10px;background:var(--accent);border-radius:50%;
+                position:absolute;left:-28px;top:10px;box-shadow:0 0 15px var(--accent)}
+  .fact{background:linear-gradient(135deg,#111e42,#171437);padding:20px;border-radius:17px;border:1px solid #354574}
+  footer{text-align:center;color:var(--muted);padding:30px 15px}
+  .button{display:inline-block;margin-top:22px;padding:11px 18px;background:var(--accent);
+          color:#03101a;text-decoration:none;font-weight:800;border-radius:999px}
+  .small{font-size:.9rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="hero">
+    <div class="eyebrow">A Cosmic Reading Adventure</div>
+    <div class="orb">🌍✨</div>
+    <h1>SolarBalls</h1>
+    <p class="subtitle">When the Solar System stops being a diagram—and starts feeling like a cast of characters.</p>
+    <a class="button" href="#article">Start reading ↓</a>
+  </div>
+</header>
+
+<nav>
+  <div class="inner">
+    <a href="#article">Article</a>
+    <a href="#characters">Characters</a>
+    <a href="#science">Science</a>
+    <a href="#why">Why it works</a>
+    <a href="#ending">Final thought</a>
+  </div>
+</nav>
+
+<main id="article">
+<article>
+  <p class="lead">Imagine opening a science textbook and suddenly the planets could talk, argue, joke around, get confused, and discover the universe together. That is the basic magic behind <strong>SolarBalls</strong>: astronomy becomes a story.</p>
+
+  <h2>🌌 More Than Just Planets</h2>
+  <p>At first glance, a solar-system model can seem simple: the Sun is in the middle, planets orbit around it, and that's it. But space is enormous, weird, and full of questions. SolarBalls turns that information into something easier to emotionally connect with.</p>
+
+  <p>Instead of only saying “Jupiter is a gas giant,” a character-based story can make you curious about <em>why</em> Jupiter is so massive, what its gravity does, why it has so many moons, and how scientists know these things.</p>
+
+  <div class="quote">“The coolest part of astronomy is that the universe doesn't need to be small for a story to make you feel close to it.”</div>
+
+  <h2 id="characters">🪐 The Solar System as a Cast</h2>
+  <div class="grid">
+    <div class="card"><div class="emoji">☀️</div><strong>The Sun</strong> The enormous center of the Solar System—and a reminder that our planetary neighborhood is powered by a star.</div>
+    <div class="card"><div class="emoji">🌍</div><strong>Earth</strong> Our home world, with oceans, an atmosphere, life, and an unusually interesting resident: us.</div>
+    <div class="card"><div class="emoji">🔴</div><strong>Mars</strong> A rocky world that keeps inspiring questions about its ancient past and whether it once had more favorable conditions.</div>
+    <div class="card"><div class="emoji">🟠</div><strong>Jupiter</strong> A giant planet whose gravity, moons, storms, and enormous scale make it a natural astronomy superstar.</div>
+    <div class="card"><div class="emoji">🪐</div><strong>Saturn</strong> Famous for its spectacular rings—and surrounded by a fascinating family of moons.</div>
+    <div class="card"><div class="emoji">🌑</div><strong>The Moons</strong> They aren't just accessories. Moons can have oceans, volcanoes, ice, atmospheres, and completely different histories.</div>
+  </div>
+
+  <h2 id="science">🔭 The Real Science Hiding Under the Chaos</h2>
+  <p>One reason space-themed storytelling can be so fun is that the fictional personalities sit on top of real astronomical ideas. A dramatic conversation can lead to a real question about gravity. A joke about distance can make you realize just how huge the Solar System is.</p>
+
+  <div class="fact">
+    <strong>🚀 Cosmic scale check:</strong><br>
+    Light travels about 300,000 kilometers every second. Even at that incredible speed, sunlight takes roughly 8 minutes and 20 seconds to reach Earth. Space is not merely “big.” It is <strong>ridiculously big</strong>.
+  </div>
+
+  <h3>Why moons are especially interesting</h3>
+  <p>Our Solar System contains many moons, and they can be surprisingly different. Jupiter's Europa is covered by an icy surface and is thought to have a subsurface ocean. Saturn's Titan has a thick atmosphere and lakes and seas made of hydrocarbons. These worlds show that “moon” does not mean “boring rock.”</p>
+
+  <h2>📖 Why a Show Like SolarBalls Can Make Astronomy Stick</h2>
+  <div class="timeline">
+    <div class="event"><strong>1. Personality creates memory.</strong><br>When a fact is connected to a funny or dramatic moment, it can be easier to remember than a disconnected number.</div>
+    <div class="event"><strong>2. Stories create questions.</strong><br>A good episode can make you pause and think: “Wait... is that actually possible?” That curiosity is the beginning of learning.</div>
+    <div class="event"><strong>3. Characters make scale feel understandable.</strong><br>It is hard to emotionally picture millions of kilometers. A story gives those distances context.</div>
+    <div class="event"><strong>4. Astronomy becomes a hobby, not just a subject.</strong><br>You can go from watching an episode to checking a planet, drawing a moon, reading about an orbit, or staring at the night sky.</div>
+  </div>
+
+  <h2 id="why">🌠 The SolarBalls Effect</h2>
+  <p>There is something special about taking objects that normally look like colored circles in a diagram and giving them personalities. Suddenly, the Solar System feels like a place rather than a list of facts.</p>
+
+  <p>And that can lead somewhere much bigger. You might start with a planet character, then wonder about its atmosphere. Then its moons. Then gravity. Then orbital mechanics. Then stars. Then galaxies.</p>
+
+  <p>Before you know it, one silly little space question has opened the door to the entire universe.</p>
+
+  <div class="quote">🌌 <strong>That is the real adventure:</strong> entertainment can spark curiosity, and curiosity can turn into learning.</div>
+
+  <h2 id="ending">✨ Final Thought</h2>
+  <p>SolarBalls works because the Solar System already has incredible stories built into it. The planets don't actually need to talk for the universe to be dramatic—the real science is dramatic enough.</p>
+
+  <p>But giving those worlds voices makes the first step into astronomy feel much more approachable. And once you become curious about space, there is practically no shortage of places to explore.</p>
+
+  <p class="small">This is an original fan-style astronomy article inspired by the concept of SolarBalls. It is not an official SolarBalls publication.</p>
+</article>
+</main>
+
+<footer id="footer">
+  🌍 Keep looking up. The universe has more questions than answers—and that's what makes it fun. 🚀
+</footer>
+</body>
+</html>
